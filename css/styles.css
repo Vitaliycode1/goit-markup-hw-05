@@ -22,7 +22,8 @@
 
   /* others */
   --anim-fast: 1000ms cubic-bezier(0.4, 0, 0.2, 1);
-  --modal-idx: 50;
+  --header-idx: 10;
+  --modal-idx: 100;
 }
 
 body {
@@ -36,6 +37,7 @@ body {
   letter-spacing: 0.02em;
   text-decoration: none;
   text-transform: none;
+  padding-top: 72px;
 }
 .link {
   font-style: normal;
@@ -132,8 +134,8 @@ img {
   top: 0;
   left: 0;
   width: 100%;
-  height: 72px;
-  z-index: 20;
+
+  z-index: var(--header-idx);
 
   border-bottom: 1px solid #e7e9fc;
   box-shadow: 0px 2px 1px rgba(46, 47, 66, 0.08),
@@ -173,9 +175,9 @@ img {
   background-color: var(--light-txt-cl);
   border-radius: 2px;
   transform: scale(0);
-  transition: rotate var(--anim-fast), transform var(--anim-fast),
-    color var(--anim-fast);
+  transition: transform var(--anim-fast), color var(--anim-fast);
 }
+
 .header-nav-link.active::after {
   background-color: var(--light-txt-cl);
   transform: scale(100%);
@@ -184,9 +186,19 @@ img {
   color: var(--light-txt-cl);
 }
 
-.header-nav-link.active:hover::after {
-  transform: scale(1.1);
+.header-nav-link:hover::after {
+  color: var(--light-txt-cl);
   background-color: var(--light-txt-cl);
+  transform: scale(100%);
+  animation: lineAppear 0.9s forwards;
+}
+@keyframes lineAppear {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
 }
 
 .header-nav-list {
@@ -258,6 +270,29 @@ img {
   background-position: center;
   background-size: cover;
 }
+
+.hero .title {
+  animation: move-top 800ms ease-in 300ms both;
+}
+.hero .btn {
+  animation: move-top 1300ms ease-in 300ms both;
+}
+
+@keyframes move-top {
+  0% {
+    opacity: 0;
+    transform: translateY(calc(100px * var(--direction)));
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .hero .title {
   max-width: 496px;
   margin: 0 auto 48px auto;
@@ -672,28 +707,26 @@ img {
   overflow: hidden;
 }
 
-.overlay {
+.overlay-text {
   position: absolute;
   top: 0;
   left: 0;
 
   width: 100%;
   height: 100%;
+  margin: 0 auto;
+  padding: 40px 32px 164px 32px;
+
   background-color: var(--primary-btn-color);
+  color: var(--accent-btn-cl);
 
   transform: translateY(100%);
   transition: transform var(--anim-fast);
 }
 
-.project-link:hover .overlay,
-.project-link:focus .overlay {
+.project-link:hover .overlay-text,
+.project-link:focus .overlay-text {
   transform: translateY(0%);
-}
-
-.overlay-text {
-  margin: 0 auto;
-  padding: 40px 32px 164px 32px;
-  color: var(--accent-btn-cl);
 }
 
 /**
@@ -738,9 +771,15 @@ img {
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12),
     0px 2px 1px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
-  transition: opacity 250ms ease-in, transform 250ms ease-in;
+  transition: opacity var(--anim-fast), transform var(--anim-fast);
+}
+
+.backdrop.is-hidden .modal {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-75%);
   transition-delay: 400ms;
 }
+
 .modal-close-btn {
   position: absolute;
   top: 24px;
